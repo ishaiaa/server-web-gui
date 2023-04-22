@@ -1,13 +1,13 @@
-const express = require('express');
-const cors = require('cors');
 const osUtils = require('node-os-utils')
-const bodyParser = require('body-parser');
 const config = require('./config')
+const ws = require("ws")
 
-const app = express();
+const wss = new ws.Server({ port: 42069 }, () => {
+    console.log("SERVER STARTED");
+    updateStats();
+})
 
-app.use(bodyParser.json());
-app.use(cors());
+var users = {};
 
 var stats = {
     cpuUsage: 0,
@@ -32,23 +32,31 @@ async function updateStats() {
         osUtils.cpu.usage().then(setCpuUsage)
         osUtils.mem.used().then(setMemUsage)
         setUptime(osUtils.os.uptime())
+        console.clear()
+        console.log(`Updated on ${new Date().toTimeString()}`)
     }, 1000)
 }
 
-app.get('/', (req,res) => {
-    console.log(stats.memUsage.usedMemMb/stats.memUsage.totalMemMb)
+// (B) ON CLIENT CONNECT
+wss.on("connection", (socket, req) => {
+    // (B1) REGISTER CLIENT
+    let id = 0;
+    while (true) {
+        if (!users.hasOwnProperty(id)) { users[id] = socket; break; }
+        id++;
+    }
 
-    res.send(
-        `
-        |CPU usage is ${stats.cpuUsage}%\n
-        |MEM usage is ${stats.memUsage.usedMemMb}MB / ${stats.memUsage.totalMemMb}MB (${((stats.memUsage.usedMemMb/stats.memUsage.totalMemMb)*100).toFixed(2)}%)\n
-        |Uptime: ${(stats.uptime/3600).toFixed(1)}h
-        `
-    );
-})
+    // (B3) FORWARD MESSAGE TO ALL ON RECEIVING MESSAGE
+    socket.on("message", msg => {
+        let message = msg.toString().replace(/(<([^>]+)>)/gi, "");
+        for (let u in users) { users[u].send(message); }
+    });
 
-app.listen(config.port, () => {
-    console.log(`App started on port ${config.port}`)
-    updateStats()
-})
+    const userLoop = setInterval(()=>{
+        socket.send(JSON.stringify({cpuUsage: stats.cpuUsage, memUsage: stats.memUsage, uptime: stats.uptime}))
+    }, 1000)
 
+
+    // (B2) DEREGISTER CLIENT ON DISCONNECT
+    socket.on("close", () => {delete users[id]; delete userLoop});
+});
