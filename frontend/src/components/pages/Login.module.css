@@ -3,26 +3,45 @@
 .mainContainer {
     width: 100vw;
     height: 100vh;
+    position: relative;
     box-sizing: border-box;
     background: linear-gradient(135deg, #fe7055, #ed1450);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .loginCard {
     width: 400px;
     height: 600px;
-    background-color: white;
     border-radius: 20px;
     box-shadow: 10px 10px 30px 0px rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 50px;
+    transition: 0.4s;
     padding: 20px;
     box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+.loginCard::before {
+    content: "";
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    border: 0px solid white;
+    background-color: white;
+    z-index: 0;
+    transition: 0.4s;
 }
 
 .heading {
@@ -37,11 +56,18 @@
     height: 100px;
     mask: url('../../images/logo.png');
     mask-size: cover;
-    background: linear-gradient(135deg, #fe7055, #ed1450);;
+    transition: 0.4s;
+    z-index: 10;
+    /* background: linear-gradient(135deg, #fe7055, #ed1450);; */
+    background: #F53F52;
 }
 
 .title {
+    opacity: 1;
+    transition: 0.4s;
     font-weight: 400;
+    z-index: 1;
+    margin-top: -20px;
 }
 
 .loginButton {
@@ -84,9 +110,19 @@
     transition: 0.4s;
 }
 
+.loginButton::after {
+    content: "Couldn't connect to server";
+    position: absolute;
+    left: 0;
+    top: -2em;
+    color: red;
+}
+
 .form {
     width: 100%;
+    height: 300px !important;
     display: flex;
+    transition: 0.4s;
     flex-direction: column;
     gap: 20px;
 }
@@ -119,6 +155,7 @@
     mask: var(--icon);
     background-color: #ed1450;
     mask-size: contain;
+    mask-repeat: no-repeat;
     top: 6px;
     left: 10px;
     width: 30px;
@@ -136,3 +173,111 @@
     transition: 0.4s;
 }
 
+.loading {
+    height: 400px;
+    overflow: hidden;
+    border-radius: 100%;
+    transition: border-radius 0.4s ease-in-out 0.4s, height 0.4s;
+}
+
+.loading .form {
+    margin-top: 400px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+.loading .loginButton {
+    width: 0;
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+}
+/* 
+.loading .heading {
+    height: 100%;
+    justify-content: center;
+    transition: 0.4s;
+    align-items: center;
+} */
+
+.loading .icon {
+    height: 360px;
+    width: 360px;
+    transition: 0.4s;
+    transition-delay: 0.4s;
+    animation: 0.5s ease-in-out 1s infinite spin1, 0.5s ease-in-out 1.5s infinite spin2, 0.5s ease-in-out 2s infinite spin3 ;
+}
+
+.loading .title {
+    opacity: 0;
+    max-height: 0px !important;
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+@keyframes spin1 {
+    0%{ 
+        rotate: 0deg;
+    }
+    100% {
+        rotate: 120deg;
+    }
+}
+
+@keyframes spin2 {
+    0%{ 
+        rotate: 120deg;
+    }
+    100% {
+        rotate: 240deg;
+    }
+}
+
+@keyframes spin3 {
+    0%{ 
+        rotate: 240deg;
+    }
+    100% {
+        rotate: 360deg;
+    }
+}
+
+.success::before {
+    width: 0px;
+    height: 0px;
+    transition: 2s;
+}
+
+.success {
+    transition: 2s;
+    box-shadow: none;
+}
+
+
+.success .icon {
+    animation: none !important;
+    position: relative;
+}
+
+.icon::after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    transition: 2s;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 1);
+    background-blend-mode: multiply;
+}
+
+.success .icon::after {
+    width: 400px;
+    transition: 2s;
+    height: 400px;
+}
