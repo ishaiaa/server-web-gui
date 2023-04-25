@@ -7,24 +7,28 @@ import key from '../../images/key-fill.svg'
 
 function Login(props) {
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [formData, setFormData] = useState({
+        socket: "",
+        user: "",
+        password: ""
+    })
 
-    function handleClick() {
-        setIsLoading(true);
-        setTimeout(()=>{
+    function handleFormUpdate(event) {
+        const target = event.currentTarget;
 
-            setIsSuccess(true)
-             setTimeout(() => {
-                 setIsLoading(false)
-                 setIsSuccess(false)
-             }, 3000)
-        }, 2500);
+        if(target.name) {
+            setFormData(prevState => {
+                return ({
+                    ...prevState,
+                    [target.name]: target.value
+                })
+            })
+        }
     }
 
     return (
         <div className={styles.mainContainer}>
-            <div className={`${styles.loginCard} ${isLoading && styles.loading} ${isSuccess && styles.success}`}>
+            <div className={`${styles.loginCard} ${props.isLoading && styles.loading} ${props.isConnected && styles.success}`}>
                 <div className={styles.heading}>
                     <div className={styles.icon} />
                     <h1 className={styles.title}>webuntu</h1>
@@ -34,22 +38,22 @@ function Login(props) {
                         className={styles.inputWrap}
                         style={{'--icon': `url(${plug})`}}
                     >
-                        <input type="text" placeholder='Socket Address'></input>
+                        <input name="socket" value={formData.socket} onChange={handleFormUpdate} type="text" placeholder='Socket Address'></input>
                     </div>
                     <div 
                         className={styles.inputWrap}
                         style={{'--icon': `url(${person})`}} 
                     >
-                        <input type="text" placeholder='Username'></input>
+                        <input name="user" value={formData.user} onChange={handleFormUpdate} type="text" placeholder='Username'></input>
                     </div>
                     <div 
                         className={styles.inputWrap}
                         style={{'--icon': `url(${key})`}} 
                     >
-                        <input type="password" placeholder='Password'></input>
+                        <input name="password" value={formData.password} onChange={handleFormUpdate} type="password" placeholder='Password'></input>
                     </div>
                 </div>
-                <button onClick={handleClick} className={styles.loginButton} >
+                <button onClick={() => props.handleConnect(formData)} className={styles.loginButton} >
                     Connect
                 </button>
             </div>

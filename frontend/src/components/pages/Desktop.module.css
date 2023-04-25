@@ -1,0 +1,233 @@
+.mainContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #fe7055, #ed1450);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.mainContainer::after {
+    content: "";
+    background: linear-gradient(135deg, #444444, #1C1C1C);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: 0.8s;
+    opacity: 0;
+}
+
+.dark:after {
+    opacity: 1;
+    transition: 0.8s;
+}
+
+.logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 360px;
+    mask: url('../../images/logo.png');
+    mask-size: contain;
+    background: linear-gradient(135deg, #fe7055, #ed1450);
+    z-index: 2;
+    pointer-events: visibleFill;
+}
+
+.logo::after {
+    content: "";
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition: 0.8s;
+    background-color: white;
+}
+
+.dark .logo:after {
+    width: 0px;
+    transition: 0.8s;
+    height: 0px;
+}
+
+.taskbar {
+    position: fixed;
+    z-index: 20;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background-color: #fffa;
+    transition: 0.8s;
+    animation: 3s ease fadeIn;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 0;
+    box-shadow: 0px -5px 20px 0px #0007
+}
+
+.dark .taskbar {
+    transition: 0.8s;
+    background-color: #0004;
+
+}
+
+.taskbarLeftModal {
+    position: fixed;
+    z-index: 20;
+    bottom: 45px;
+    left: 15px;
+    width: 300px;
+    height: 0px;
+    transition: 0.8s;
+    background-color: #fffa;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 5px -5px 20px 0px #0007;
+
+
+}
+
+.taskbarRightModal {
+    position: fixed;
+    z-index: 20;
+    bottom: 45px;
+    right: 15px;
+    width: 400px;
+    height: 0px;
+    transition: 0.4s;
+    background-color: #fffa;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    box-shadow: 5px -5px 20px 0px #0007;
+    border-bottom-right-radius: 0;
+}
+
+.dark .taskbarLeftModal, .dark .taskbarRightModal {
+    background-color: #0003;
+    transition: 0.4s, background-color 0.8s;
+}
+
+.taskbarIcons {
+    width: calc(100% - 200px);
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.taskbarTools {
+    width: 200px !important;
+    height: 100%;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    align-items: center;
+    padding-right: 10px;
+    transition: 0.8s;
+    color: black;
+}
+
+.dark .taskbarTools {
+    color: #fff9;
+    transition: 0.8s;
+}
+
+.time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.timeH {
+    font-size: 20px;
+}
+
+.timeD{
+    font-size: 14px;
+}
+
+.taskbar:has(.taskbarTools:focus) .taskbarRightModal, .taskbarRightModal:focus {
+    height: 450px;
+    transition: 0.4s;
+    box-shadow: none;
+}
+
+.taskbar:has(.menuIcon:focus) .taskbarLeftModal, .taskbarLeftModal:focus {
+    height: 450px;
+    transition: 0.4s;
+    box-shadow: none;
+}
+
+.taskbarIcon {
+    width: 55px;
+    height: 100%;
+    background-color: #fff0;
+    transition: 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.taskbarIcon:after {
+    content: "";
+    mask-image: var(--icon);
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: linear-gradient(135deg, #fe7055, #ed1450);
+}
+
+.menuIcon:after {
+    width: 95%;
+    height: 95%;
+    top: 58%;
+}
+
+.dark .taskbarIcon:hover {
+    background-color: #fff1;
+    transition: 0.2s;
+}
+
+.taskbarIcon:hover {
+    background-color: #fff9;
+    transition: 0.2s;
+}
+
+@keyframes fadeIn {
+    0% {
+        transform: translate(0, 100%);
+    }
+    50% {
+        transform: translate(0, 100%);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
