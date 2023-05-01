@@ -1,0 +1,143 @@
+
+
+.windowFrame {
+    width: calc(50% - 15px);
+    height: calc(50% - 15px);
+    top: 10px;
+    left: 10px;
+    position: absolute;
+    backdrop-filter: blur(30px);
+    background-color: #fffa;
+    transition: 0.8s;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    animation: 0.5s ease-in-out displayFrame;
+    pointer-events: all;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px 0 #0007;
+}
+
+.windowBar {
+    width: 100%;
+    height: 30px !important;
+    background-color: #fffb;
+    transition: 0.8s;
+    box-shadow: 0px 10px 20px 0px #0002;
+    cursor:auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dragging {
+    opacity: 0.4;
+    transition: 0.2s;
+}
+
+.windowBarInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+    gap: 5px;
+}
+
+.darkTheme {
+    background-color: #0003 !important;
+    transition: 0.8s;
+}
+.darkTheme .windowBar {
+    background-color: #0004 !important;
+    color: white;
+    transition: background-color 0.8s color 0.8s;
+}
+
+.windowBarControls {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    height: 100%;
+    gap: 1px;
+}
+
+.windowBarControl {
+    width: 35px;
+    height: 100%;
+    background-color: #fff0;
+    transition: 0.2s;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    outline: none;
+}
+
+.windowBarControl:after {
+    content: "";
+    mask-image: var(--icon);
+    mask-size: 60% 60%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    transition: 0.8s;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: black;
+}
+
+.darkTheme .windowBarControl:after {
+    background: white;
+    transition: 0.8s;
+}
+
+.windowBarControl:hover {
+    background-color: #fffe;
+    transition: 0.2s;
+}
+
+.darkTheme .windowBarControl:hover {
+    background-color: #fff1;
+    transition: 0.2s;
+}
+
+.scaleHorizontal {
+    rotate: 90deg;
+}
+
+.cross:hover {
+    background-color: #f007 !important;
+}
+
+.dark .cross:hover {
+    background-color: #f001 !important;
+}
+
+.windowBarIcon {
+    mask-image: var(--icon);
+    mask-size: 100% 100%;
+    mask-position: center ;
+    mask-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    transition: 0.8s;
+    background: linear-gradient(135deg, #fe7055, #ed1450);;
+}
+
+@keyframes displayFrame {
+    0% {
+        transform: scale(0%);
+    }
+    70% {
+        transform: scale(110%);
+    }
+    90% {
+        transform: scale(95%);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}

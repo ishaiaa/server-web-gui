@@ -1,0 +1,8 @@
+.mainContainer {
+    position: relative;
+    height: calc(100% - 45px);
+    width: 100%;
+    top: 0;
+    z-index: 30;
+    pointer-events: none;
+}
