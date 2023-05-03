@@ -6,12 +6,88 @@ import icon1 from '../../images/key-fill.svg'
 import icon2 from '../../images/person-fill.svg'
 import icon3 from '../../images/plug-fill.svg'
 
+
+import terminalIcon from '../../images/terminal-fill.svg'
+import internetIcon from '../../images/globe.svg'
+import folderIcon from '../../images/folder-fill.svg'
+import textIcon from '../../images/file-text-fill.svg'
+import imageIcon from '../../images/image.svg'
+import statsIcon from '../../images/bar-chart-fill.svg'
+import monitorIcon from '../../images/graph-up.svg'
+import settingsIcon from '../../images/gear-fill.svg'
+
+
+
+
+import ModalApp from './ModalApp';
+
 function TaskBar(props) {
     return (
         <div className={`${props.darkTheme && styles.dark}`}>
             <div className={styles.taskbar}>
                 <div className={styles.taskbarLeftModal} tabIndex="0">
-
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        title="Placeholder App"
+                        description="Opens up an empty window"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={terminalIcon}
+                        title="Terminal"
+                        description="Opens up a terminal emulator"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={internetIcon}
+                        title="Browser"
+                        description="Search the internet through server proxy"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={folderIcon}
+                        title="File Explorer"
+                        description="Browse files and folders on the server"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={textIcon}
+                        title="Text Editor"
+                        description="Allows you to edit and save text"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={imageIcon}
+                        title="Image Viewer"
+                        description="View images from your server"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={statsIcon}
+                        title="Statistics"
+                        description="Display server statistics in a organised way"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={monitorIcon}
+                        title="Task monitor"
+                        description="View and manage all running processes"
+                        openWindow={props.queueAdd}
+                    />
+                    <ModalApp 
+                        darkTheme={props.darkTheme}
+                        icon={settingsIcon}
+                        title="Settings"
+                        description="Manage setttings of server and web client"
+                        openWindow={props.queueAdd}
+                    />
                 </div>
                 <div className={styles.taskbarRightModal} tabIndex="0">
 

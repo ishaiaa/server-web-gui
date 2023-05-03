@@ -13,6 +13,7 @@ import {
 
 import Login from './components/pages/Login';
 import Desktop from './components/pages/Desktop';
+import Debug from './components/pages/Debug';
 
 
 function App(props) {
@@ -121,6 +122,7 @@ function App(props) {
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login isLoading={isLoading} isConnected={isConnected} handleConnect={handleSocketConnect} />} />
       <Route path="/desktop" element={<Desktop data={lastMessage ? JSON.parse(lastMessage.data) : null}/>} />
+      <Route path="/debug" element={<Debug />} />
     </Routes>
   )
 };

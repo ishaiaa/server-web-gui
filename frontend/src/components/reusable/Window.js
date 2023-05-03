@@ -17,39 +17,63 @@ function Window(props) {
 
     function toggleDrag(event, state) {
         event.dataTransfer.setDragImage(placeholder,0,0);
-        console.log(state)
         setIsDragged(state);
+        
+        if(state) props.dragStart(props.slotID)
+        props.globalDrag(state)
     }
 
     function handleDrag(event) {
-        console.log("drag")
+        event.stopPropagation();
         event.preventDefault();
+        console.log("drag")
+    }
+
+    function handleHorizontalResize() {
+        props.resizeHandler(props.slotID, props.verticalGrow, !props.horizontalGrow)
+    }
+
+    function handleVerticalResize() {
+        props.resizeHandler(props.slotID, !props.verticalGrow, props.horizontalGrow)
     }
 
     return (
         <div   
-        className={`${styles.windowFrame} ${props.darkTheme && styles.darkTheme} ${isDragged && styles.dragging}`}
+            className={`
+                ${styles.windowFrame} 
+                ${props.darkTheme && styles.darkTheme} 
+                ${isDragged && styles.dragging}
+                ${props.x === 0 ? styles.left : styles.right}
+                ${props.y === 0 ? styles.up : styles.down}
+                ${props.horizontalGrow && styles.horizontalGrow}
+                ${props.verticalGrow && styles.verticalGrow}
+                ${styles.display} 
+                ${!props.visible && styles.noDisplay}
+            `}
+            draggable="false"    
         >
             <div 
                 className={styles.windowBar}
                 draggable="true"    
-                 
+                
                 onDrag={handleDrag}  
                 onDragStart={(event) => toggleDrag(event, true)}
                 onDragEnd={(event) => toggleDrag(event, false)}
             >
                 <div className={styles.windowBarInfo}>
-                    <div style={{'--icon': `url(${logo})`}} className={styles.windowBarIcon} />
-                    <p>WindowTitle</p>
+                    <div style={{'--icon': `url(${props.content.icon ?? logo})`}} className={styles.windowBarIcon} />
+                    <p>{props.content.title ?? "Window"}</p>
                 </div>
                 <div className={styles.windowBarControls}>
-                    <button className={`${styles.windowBarControl} ${styles.cross}`}           style={{'--icon': `url(${cross})`}} />
-                    <button className={`${styles.windowBarControl} ${styles.scaleVertical}`}   style={{'--icon': `url(${scaleUp})`}} />
-                    <button className={`${styles.windowBarControl} ${styles.scaleHorizontal}`} style={{'--icon': `url(${scaleDown})`}} />
+                    <button onClick={() => props.closeHandler(props.slotID)} className={`${styles.windowBarControl} ${styles.cross}`}           style={{'--icon': `url(${cross})`}} />
+                    <button onClick={handleVerticalResize} className={`${styles.windowBarControl} ${styles.scaleVertical}`}   style={{'--icon': `url(${props.verticalGrow ? scaleDown : scaleUp})`}} />
+                    <button onClick={handleHorizontalResize} className={`${styles.windowBarControl} ${styles.scaleHorizontal}`} style={{'--icon': `url(${props.horizontalGrow ? scaleDown : scaleUp})`}} />
                 </div>
             </div>
-            <div className={styles.windowContent}>
-                
+            <div className={styles.windowContent}
+                draggable="false"    
+            >
+                {props.content.render}
             </div>
         </div>
     );

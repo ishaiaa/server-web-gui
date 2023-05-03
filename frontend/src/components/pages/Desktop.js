@@ -7,6 +7,16 @@ import TaskBar from '../reusable/TaskBar';
 
 function Desktop(props) {
     const [darkTheme, setDarkTheme] = useState(false);
+    
+    const [windowQueue, setWindowQueue] = useState(null);
+
+    function handleQueueClear() {
+        setWindowQueue(null)
+    }
+
+    function handleQueueAdd(content) {
+        setWindowQueue(content)
+    }
 
     function handleDarkTheme() {
         setDarkTheme(prev => !prev);
@@ -16,13 +26,16 @@ function Desktop(props) {
         <div className={`${styles.mainContainer} ${darkTheme && styles.dark}`}>
             <div onClick={handleDarkTheme} className={styles.logo} />
 
-            <WindowManager>
-                <Window darkTheme={darkTheme}/>
-            </WindowManager>
+            <WindowManager
+                queue={windowQueue}
+                queueClear={handleQueueClear}
+                darkTheme={darkTheme}
+            />
 
             <TaskBar 
                 className={styles.taskbar}
                 darkTheme={darkTheme}
+                queueAdd={handleQueueAdd}
                 data={props.data ?? null}
             />
             

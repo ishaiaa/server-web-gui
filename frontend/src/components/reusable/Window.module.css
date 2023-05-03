@@ -12,9 +12,10 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    animation: 0.5s ease-in-out displayFrame;
+    /* animation: 0.5s ease-in-out displayFrame; */
     pointer-events: all;
     overflow: hidden;
+    box-sizing: border-box;
     box-shadow: 2px 2px 5px 0 #0007;
 }
 
@@ -31,10 +32,7 @@
     align-items: center;
 }
 
-.dragging {
-    opacity: 0.4;
-    transition: 0.2s;
-}
+
 
 .windowBarInfo {
     display: flex;
@@ -79,13 +77,12 @@
     mask-size: 60% 60%;
     mask-position: center;
     mask-repeat: no-repeat;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     position: absolute;
     transition: 0.8s;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    top: 0;
+    left: 0;
     background: black;
 }
 
@@ -104,8 +101,9 @@
     transition: 0.2s;
 }
 
-.scaleHorizontal {
-    rotate: 90deg;
+.scaleHorizontal::after {
+    transform-origin: center;
+    transform: rotate(90deg);
 }
 
 .cross:hover {
@@ -126,6 +124,66 @@
     transition: 0.8s;
     background: linear-gradient(135deg, #fe7055, #ed1450);;
 }
+
+.left {
+    left: 10px;
+}
+
+.right {
+    left: calc(50% + 5px) 
+}
+
+.up {
+    top: 10px;
+}
+
+.down {
+    top: calc(50% + 5px)
+}
+
+.verticalGrow {
+    top: 10px;
+    height: calc(100% - 20px);
+}
+
+.horizontalGrow {
+    left: 10px;
+    width: calc(100% - 20px);
+}
+
+.dragging {
+    opacity: 0.4;
+    transition: 0.6s;
+}
+
+.display {
+    transform: scale(100%) skew(50%);
+    transition: 0.4s;
+}
+
+.noDisplay {
+    transform: scale(0%) ;
+    transition: 0.4s;
+    /* top: 25%;
+    left: 25%; */
+}
+
+.windowContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    transition: 0.4s;
+    align-items: center;
+    height: 100%;
+    opacity: 0.7;
+}
+
+.darkTheme .windowContent {
+    color: white;
+    transition: 0.4s;
+}
+
 
 @keyframes displayFrame {
     0% {

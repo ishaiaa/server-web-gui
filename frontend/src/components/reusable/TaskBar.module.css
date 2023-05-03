@@ -1,6 +1,6 @@
 .taskbar {
     position: fixed;
-    z-index: 20;
+    z-index: 70;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -36,6 +36,7 @@
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: none;
+    overflow: hidden;
 
 
 }
