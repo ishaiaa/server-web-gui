@@ -8,6 +8,13 @@
 
 }
 
+:root {
+  --gradient: linear-gradient(135deg, #fe7055, #ed1450);
+  --gradient: linear-gradient(135deg, #f23737, #e77e44);
+  --primary: #f23737;
+  --secondary: #e77e44;
+}
+
 body {
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

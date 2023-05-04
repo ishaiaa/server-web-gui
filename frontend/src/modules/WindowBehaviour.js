@@ -65,6 +65,8 @@ function checkIfFree(id, windowGrid) {
     let returnVal = true
 
     windowGrid.forEach(element => {
+        console.log(`id ${id} element`)
+        console.log(element)
         if(element.occupancy.indexOf(id) !== -1 && element.active) returnVal = false
     });
 
@@ -197,6 +199,8 @@ export function calculateResize(id, vertical, horizontal, windowGrid) {
 
 
     freeSlotsTemp.forEach(slot => {
+        console.log(`slot ${slot}`)
+        console.log(gridClone[getIndexById(slot, gridClone)])
         if(checkIfFree(slot, gridClone)) freeSlots.push(slot)
     })
 
