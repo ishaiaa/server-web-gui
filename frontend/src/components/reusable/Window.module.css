@@ -22,6 +22,7 @@
 .windowBar {
     width: 100%;
     height: 30px !important;
+    min-height: 30px !important;
     background-color: #fffb;
     transition: 0.8s;
     box-shadow: 0px 10px 20px 0px #0002;
@@ -176,7 +177,7 @@
     transition: 0.4s;
     align-items: center;
     height: 100%;
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .darkTheme .windowContent {

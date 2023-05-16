@@ -1,6 +1,6 @@
 .taskbar {
     position: fixed;
-    z-index: 70;
+    z-index: 910;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -45,7 +45,7 @@
 
 .taskbarRightModal {
     position: fixed;
-    z-index: 20;
+    z-index: 0;
     bottom: 45px;
     right: 15px;
     width: 400px;
@@ -61,6 +61,7 @@
 
 .dark .taskbarLeftModal, .dark .taskbarRightModal {
     background-color: #0003;
+    backdrop-filter: blur(30px);
     transition: 0.4s, background-color 0.8s;
 }
 

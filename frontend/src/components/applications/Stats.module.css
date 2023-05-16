@@ -1,0 +1,20 @@
+.mainContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.progressBar {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: 
+        radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+        conic-gradient(var(#369) 65%, var(#def) 0);
+    border-radius: 50%;
+}

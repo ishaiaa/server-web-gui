@@ -65,8 +65,8 @@ function checkIfFree(id, windowGrid) {
     let returnVal = true
 
     windowGrid.forEach(element => {
-        console.log(`id ${id} element`)
-        console.log(element)
+        // console.log(`id ${id} element`)
+        // console.log(element)
         if(element.occupancy.indexOf(id) !== -1 && element.active) returnVal = false
     });
 
@@ -85,11 +85,11 @@ function getAllOverlays(id, windowGrid) {
 
 function freeUpSpace(idToFree, windowGrid) {
     let originContainer = windowGrid[getIndexById(idToFree, windowGrid)]
-    console.log(originContainer)
+    // console.log(originContainer)
     if(originContainer.active) return windowGrid
 
     let overlays = getAllOverlays(idToFree, windowGrid)
-    console.log(overlays)
+    // console.log(overlays)
     let ids = overlays.map(element => element.tileID)
     return windowGrid.map(element => {
         if(ids.indexOf(element.tileID) === -1) return {...element}
@@ -159,7 +159,7 @@ export function calculateResize(id, vertical, horizontal, windowGrid) {
 
     let occupancy = calculateOccupancy(id, vertical, horizontal)
 
-    console.log(`OCCUPANCY ${occupancy}`)
+    // console.log(`OCCUPANCY ${occupancy}`)
 
     //zapisz do zmiennej wszystkie sloty które wymagają rearanżacji
     let slotsToRearrange = []
@@ -172,8 +172,8 @@ export function calculateResize(id, vertical, horizontal, windowGrid) {
     //jesli któryś slot ma overlaya, zmniejsz go
     //jeśli któryś slot jest zajęty i active, dodaj go do listy tych, które trzeba gdzieś przesunąć
     let slotsToReposition = slotsToRearrange
-    console.log(`TO REPOSITION ${slotsToReposition}`)
-    console.log(`TO REARANGE ${slotsToRearrange}`)
+    // console.log(`TO REPOSITION ${slotsToReposition}`)
+    // console.log(`TO REARANGE ${slotsToRearrange}`)
 
     slotsToRearrange.forEach(slot => {
         let slotToRearrange = gridClone[getIndexById(slot, gridClone)]
@@ -184,7 +184,7 @@ export function calculateResize(id, vertical, horizontal, windowGrid) {
     })
 
 
-    console.log(`TO REPOSITION ${slotsToReposition}`)
+    // console.log(`TO REPOSITION ${slotsToReposition}`)
 
     //zrób loopa wszystkich wolnych miejsc w wyłączeniem occupance resizowanego objektu
     
@@ -195,23 +195,23 @@ export function calculateResize(id, vertical, horizontal, windowGrid) {
         freeSlotsTemp.splice(freeSlotsTemp.indexOf(slot), 1)
     })
 
-    console.log(`freeSlotsTemp ${freeSlotsTemp}`)
+    // console.log(`freeSlotsTemp ${freeSlotsTemp}`)
 
 
     freeSlotsTemp.forEach(slot => {
-        console.log(`slot ${slot}`)
-        console.log(gridClone[getIndexById(slot, gridClone)])
+        // console.log(`slot ${slot}`)
+        // console.log(gridClone[getIndexById(slot, gridClone)])
         if(checkIfFree(slot, gridClone)) freeSlots.push(slot)
     })
 
-    console.log(`freeSlots ${freeSlots}`)
+    // console.log(`freeSlots ${freeSlots}`)
 
     //przenieś pierwszy element z listy do relokacji w pierwszy wolny slot itd
 
     freeSlots.forEach(slot => {
         if(slotsToReposition.length > 0) {
-            console.log(`moveAttempt ${slot} to ${slotsToReposition[0]}`)
-            console.log(`strp ${slotsToReposition}`)
+            // console.log(`moveAttempt ${slot} to ${slotsToReposition[0]}`)
+            // console.log(`strp ${slotsToReposition}`)
             gridClone = calculateMovement(slot, slotsToReposition[0], gridClone)
             slotsToReposition.slice(0,1)
         }
@@ -247,7 +247,7 @@ export function openNewWindow(content, windowGrid) {
     let freeSlotsTemp = [0,1,2,3]
     let freeSlots = []
 
-    console.log("window open call")
+    // console.log("window open call")
 
     let gridClone = windowGrid.map(element => {return {...element}})
 
@@ -256,7 +256,7 @@ export function openNewWindow(content, windowGrid) {
         if(checkIfFree(slot, gridClone) && !gridClone[getIndexById(slot, gridClone)].active) freeSlots.push(slot)
     })
 
-    console.log(freeSlots)
+    // console.log(freeSlots)
 
     if(freeSlots.length > 0) {
         let windowReference = gridClone[getIndexById(freeSlots[0], gridClone)]
@@ -269,12 +269,12 @@ export function openNewWindow(content, windowGrid) {
             horizontalGrow: false, 
             content: content
         }
-        console.log(windowReference)
+        // console.log(windowReference)
 
 
     }
 
-    console.log(gridClone)
+    // console.log(gridClone)
 
     return gridClone
 }

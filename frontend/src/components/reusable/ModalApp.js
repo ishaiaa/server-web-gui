@@ -8,7 +8,7 @@ function ModalApp(props) {
         props.openWindow({
             icon: props.icon ?? defaultIcon,
             title: props.title ?? "Window",
-            render: <p>{props.description ?? "No description"}</p>
+            render: props.target ?? <p>{props.description ?? "No description"}</p>
         })
     }
     

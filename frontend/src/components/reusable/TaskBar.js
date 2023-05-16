@@ -17,9 +17,11 @@ import monitorIcon from '../../images/graph-up.svg'
 import settingsIcon from '../../images/gear-fill.svg'
 
 
-
-
 import ModalApp from './ModalApp';
+
+import Settings from '../applications/Settings';
+import Terminal from '../applications/Terminal';
+import Stats from '../applications/Stats';
 
 function TaskBar(props) {
     return (
@@ -38,6 +40,7 @@ function TaskBar(props) {
                         title="Terminal"
                         description="Opens up a terminal emulator"
                         openWindow={props.queueAdd}
+                        target={<Terminal update={true}/>}
                     />
                     <ModalApp 
                         darkTheme={props.darkTheme}
@@ -73,6 +76,7 @@ function TaskBar(props) {
                         title="Statistics"
                         description="Display server statistics in a organised way"
                         openWindow={props.queueAdd}
+                        target={<Stats data={props.data}/>}
                     />
                     <ModalApp 
                         darkTheme={props.darkTheme}
@@ -87,6 +91,7 @@ function TaskBar(props) {
                         title="Settings"
                         description="Manage setttings of server and web client"
                         openWindow={props.queueAdd}
+                        target={<Settings />}
                     />
                 </div>
                 <div className={styles.taskbarRightModal} tabIndex="0">
