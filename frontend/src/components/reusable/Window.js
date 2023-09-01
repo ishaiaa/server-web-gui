@@ -42,7 +42,8 @@ function Window(props) {
             className={`
                 ${styles.windowFrame} 
                 ${props.darkTheme && styles.darkTheme} 
-                ${isDragged && styles.dragging}
+                ${props.darkTheme && "darkTheme"} 
+                ${isDragged && styles.dragging} 
                 ${props.x === 0 ? styles.left : styles.right}
                 ${props.y === 0 ? styles.up : styles.down}
                 ${props.horizontalGrow && styles.horizontalGrow}

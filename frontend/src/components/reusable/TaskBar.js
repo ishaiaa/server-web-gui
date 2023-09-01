@@ -20,10 +20,15 @@ import settingsIcon from '../../images/gear-fill.svg'
 import ModalApp from './ModalApp';
 
 import Settings from '../applications/Settings';
-import Terminal from '../applications/Terminal';
+import TerminalEmulator from '../applications/TerminalEmulator';
 import Stats from '../applications/Stats';
+import FileExplorer from '../applications/FileExplorer'
+import ImageViewer from '../applications/ImageViewer';
 
 function TaskBar(props) {
+
+    console.log(props.darkTheme)
+
     return (
         <div className={`${props.darkTheme && styles.dark}`}>
             <div className={styles.taskbar}>
@@ -40,7 +45,7 @@ function TaskBar(props) {
                         title="Terminal"
                         description="Opens up a terminal emulator"
                         openWindow={props.queueAdd}
-                        target={<Terminal update={true}/>}
+                        target={<TerminalEmulator/>}
                     />
                     <ModalApp 
                         darkTheme={props.darkTheme}
@@ -55,6 +60,7 @@ function TaskBar(props) {
                         title="File Explorer"
                         description="Browse files and folders on the server"
                         openWindow={props.queueAdd}
+                        target={<FileExplorer data={props.data} darkTheme={props.darkTheme}/>}
                     />
                     <ModalApp 
                         darkTheme={props.darkTheme}
@@ -69,6 +75,7 @@ function TaskBar(props) {
                         title="Image Viewer"
                         description="View images from your server"
                         openWindow={props.queueAdd}
+                        target={<ImageViewer />}
                     />
                     <ModalApp 
                         darkTheme={props.darkTheme}

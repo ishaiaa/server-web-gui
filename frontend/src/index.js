@@ -5,9 +5,14 @@ import App from './App';
 import Login from './components/pages/Login';
 import Desktop from './components/pages/Desktop';
 
+import { createStore } from 'state-pool';
+
 import { BrowserRouter as Router} from 'react-router-dom';
 
 // import reportWebVitals from './reportWebVitals';
+
+const store = createStore();  // Create store for storing our state
+store.setState("darkTheme", false);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(
