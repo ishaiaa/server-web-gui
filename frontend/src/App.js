@@ -15,6 +15,7 @@ import Login from './components/pages/Login';
 import Desktop from './components/pages/Desktop';
 import Debug from './components/pages/Debug';
 
+export const SocketContext = React.createContext(null)
 
 function App(props) {
   //Public API that will echo messages sent to it back to the client
@@ -68,7 +69,8 @@ function App(props) {
       setIsConnected(true)
       setTimeout(() => {
         navigator("/desktop")
-      }, 3000)
+      // }, 3000)
+      }, 10)
 
     }
   },[readyState, waitTime])
@@ -118,12 +120,14 @@ function App(props) {
   // );
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/login" element={<Login isLoading={isLoading} isConnected={isConnected} handleConnect={handleSocketConnect} />} />
-      <Route path="/desktop" element={<Desktop data={lastMessage ? JSON.parse(lastMessage.data) : null}/>} />
-      <Route path="/debug" element={<Debug />} />
-    </Routes>
+    <SocketContext.Provider value={{lastMessage: lastMessage, sendMessage: sendMessage}}>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login isLoading={isLoading} isConnected={isConnected} handleConnect={handleSocketConnect} />} />
+        <Route path="/desktop" element={<Desktop data={lastMessage ? JSON.parse(lastMessage.data) : null}/>} />
+        <Route path="/debug" element={<Debug />} />
+      </Routes>
+    </SocketContext.Provider>
   )
 };
 

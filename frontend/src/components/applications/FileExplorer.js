@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ThemeContext } from '../pages/Desktop';
+import { SocketContext } from '../../App';
 import styles from './FileExplorer.module.css';
 
 import internetIcon from '../../images/globe.svg'
@@ -14,9 +15,51 @@ import arrowRefreshIcon from '../../images/arrow-refresh.svg'
 
 function FileExplorer(props) {
     const {darkTheme, setDarkTheme} = useContext(ThemeContext)
-
+    const {lastMessage, sendMessage} = useContext(SocketContext)
+    const [directoryData, setDirectoryData] = useState({directory: "/home/webuntu", files: []});
     function handleUpdate() {
         setDarkTheme(p => !p)
+    }
+
+    useEffect(() => {
+        console.log(lastMessage)
+        const data = JSON.parse(lastMessage.data);
+        if(data.type==="SERVER_FILE_EXPLORER") {
+            setDirectoryData(data.data)
+        }
+
+    },[lastMessage])
+
+    function handleClick() {
+        sendMessage(JSON.stringify({
+            type: "CLIENT_FILE_EXPLORER",
+            id: '98b98',
+            pwd: "/home/zongi"
+        }))
+    }
+
+    function handlePwdUp() {
+        let pwdSplit = directoryData.directory.split(/(\/)/g)
+        let newPwd = ""
+        for(let i = 0;i<pwdSplit.length-2;i++) {
+            newPwd+=pwdSplit[i]
+        }
+        if(newPwd.length <= 1) newPwd = "/"
+
+
+        sendMessage(JSON.stringify({
+            type: "CLIENT_FILE_EXPLORER",
+            id: '98b98',
+            pwd: newPwd
+        }))
+    }
+
+    function handleChangeDirectory(address) {
+        sendMessage(JSON.stringify({
+            type: "CLIENT_FILE_EXPLORER",
+            id: '98b98',
+            pwd: address
+        }))
     }
 
     return (
@@ -25,10 +68,10 @@ function FileExplorer(props) {
                 <div style={{'--icon': `url(${arrowRefreshIcon})`}} className={styles.button}></div>
                 <div style={{'--icon': `url(${arrowLeftIcon})`}} className={styles.button}></div>
                 <div style={{'--icon': `url(${arrowRightIcon})`}} className={styles.button}></div>
-                <div style={{'--icon': `url(${arrowUpIcon})`}} className={styles.button}></div>
+                <div onClick={handlePwdUp} style={{'--icon': `url(${arrowUpIcon})`}} className={styles.button}></div>
                 
                 <div className={styles.adressBar}>
-                    <input placeholder="Directory Path" value="/home/webuntu" type="text"></input>
+                    <input placeholder="Directory Path" value={directoryData ? directoryData.directory : "/home/webuntu"} type="text"></input>
                 </div>
 
                 <div className={styles.searchBar}>
@@ -63,11 +106,16 @@ function FileExplorer(props) {
                 </div>
                 <div className={styles.content}>
                     <div className={styles.fileContainer}>
-                    {[...Array(20).keys()].map((i)=> {
-                        return (
+                    {directoryData && directoryData.files.map((fileData)=> {
+                        return fileData.isDirectory ? (
+                            <div onClick={()=>handleChangeDirectory(directoryData.directory + "/" + fileData.fileName)} className={styles.file}>
+                                <div style={{'--icon': `url(${folderIcon})`}} className={styles.fileIcon}></div>
+                                <p>{fileData.fileName}</p>
+                            </div>
+                        ) : (
                             <div className={styles.file}>
-                                <div style={{'--icon': `url(${i%5 === 1 ? textIcon : folderIcon})`}} className={styles.fileIcon}></div>
-                                <p>{i%5 === 1 ? `File Title (${i+1})` : `Folder Title (${i+1})`}</p>
+                                <div style={{'--icon': `url(${textIcon})`}} className={styles.fileIcon}></div>
+                                <p>{fileData.fileName}</p>
                             </div>
                         )
                     })}

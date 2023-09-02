@@ -113,10 +113,10 @@ function TaskBar(props) {
                 <div className={styles.taskbarTools} tabIndex="0">
                     <div className={styles.time}>
                         <p className={styles.timeH}>
-                            {props.data ? `${props.data.clock.time}` : '--:--'}
+                            {props.data && props.data.type==="SERVER_CLOCK" ? `${props.data.clock.time}` : '--:--'}
                         </p>
                         <p className={styles.timeD}>
-                            {props.data ? `${props.data.clock.date}` : '-/-/-'}
+                            {props.data && props.data.type==="SERVER_CLOCK" ? `${props.data.clock.date}` : '-/-/-'}
                         </p>
                     </div>
                 </div>

@@ -1,6 +1,10 @@
 const osUtils = require('node-os-utils')
 const config = require('./config')
 const ws = require("ws")
+const { exec } = require("child_process");
+const path = require('path');
+const fs = require('fs');
+
 
 const wss = new ws.Server({ port: 42069 }, () => {
     console.log("SERVER STARTED");
@@ -115,8 +119,8 @@ async function updateStats() {
         osUtils.cpu.usage().then(setCpuUsage)
         osUtils.mem.used().then(setMemUsage)
         setUptime(osUtils.os.uptime())
-        console.clear()
-        console.log(`Updated on ${new Date().toTimeString()}`)
+        // console.clear()
+        // console.log(`Updated on ${new Date().toTimeString()}`)
     }, 1000)
 }
 
@@ -124,22 +128,61 @@ async function updateStats() {
 wss.on("connection", (socket, req) => {
     // (B1) REGISTER CLIENT
     let id = 0;
+    // console.log(users)
+    console.log(req)
     while (true) {
+        // console.log(users)
         if (!users.hasOwnProperty(id)) { users[id] = socket; break; }
         id++;
     }
 
     // (B3) FORWARD MESSAGE TO ALL ON RECEIVING MESSAGE
     socket.on("message", msg => {
-        let message = msg.toString().replace(/(<([^>]+)>)/gi, "");
-        for (let u in users) { users[u].send(message); }
+        // let message = msg.toString().replace(/(<([^>]+)>)/gi, "");
+        // for (let u in users) { users[u].send(message); }
+        console.log(msg.toString())
+        let data = JSON.parse(msg.toString())
+
+        console.log(data)
+        if(data.type==="CLIENT_FILE_EXPLORER") console.log(data.id)
+
+        fs.readdir(data.pwd, (err, files) => {
+            //handling error
+            if (err) {
+                return console.log('Unable to scan directory: ' + err);
+            } 
+            //listing all files using forEach
+            let directoryListing = files.map((file) => {
+                let fileData = fs.lstatSync(path.join(data.pwd, file))
+                let splitted = file.split(".")
+                let extension = splitted.length===1 ? null : splitted[0].length < 1 ? null : splitted[splitted.length-1]    
+
+                return {
+                    fileName: file,
+                    fileExtension: extension,
+                    filePermissions: (fileData.mode&07777).toString(8),
+                    isDirectory: fileData.isDirectory(),
+                    isFile: fileData.isFile(),
+                    isSymLink: fileData.isSymbolicLink()
+                };
+            })
+
+            console.log(directoryListing)
+            socket.send(JSON.stringify({
+                type: "SERVER_FILE_EXPLORER",
+                id: data.id,
+                data: {
+                    status: "SUCCESS",
+                    directory: data.pwd,
+                    files: directoryListing
+                }
+            }))
+        });
     });
 
     const userLoop = setInterval(()=>{
         socket.send(JSON.stringify({
-            cpuUsage: stats.cpuUsage, 
-            memUsage: stats.memUsage, 
-            uptime: stats.uptime,
+            type: "SERVER_CLOCK",
             clock: {
                 time: formatDate(new Date(), "HH:mm"),
                 date: formatDate(new Date(), "dd.MM.yyyy")
